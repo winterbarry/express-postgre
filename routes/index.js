@@ -3,7 +3,6 @@ const indexController = require("../controllers/indexController");
 
 const indexRouter = Router();
 
-// GET / - Display available usernames
-indexRouter.get("/", indexController);
+indexRouter.get("/", indexController.getUsernames);
 
 module.exports = indexRouter;

@@ -1,9 +1,23 @@
-const userStorage = require("../storage/userStorage");
+const db = require("../db/queries");
 
-function indexController(req, res) {
-  const usernames = userStorage.getUsernames();
-
-  res.render("index", { usernames });
+async function getUsernames(req, res) {
+  const usernames = await db.getAllUsernames();
+  console.log("Usernames: ", usernames);
+  res.send("Usernames: " + usernames.map((user) => user.username).join(", "));
 }
 
-module.exports = indexController;
+async function createUsernameGet(req, res) {
+  res.render("new");
+}
+
+async function createUsernamePost(req, res) {
+  const { username } = req.body;
+  await db.insertUsername(username);
+  res.redirect("/");
+}
+
+module.exports = {
+  getUsernames,
+  createUsernameGet,
+  createUsernamePost,
+};
